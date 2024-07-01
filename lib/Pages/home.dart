@@ -18,13 +18,11 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     // Initialize the stream only once in initState
-    employeeStream = DatabaseMethods().getEmployeeDetails();
+    getEmployeeDetails();
   }
 
   void getEmployeeDetails() {
-    setState(() {
-      employeeStream = DatabaseMethods().getEmployeeDetails();
-    });
+    employeeStream = FirebaseFirestore.instance.collection('employees').snapshots();
   }
 
   @override
@@ -71,15 +69,15 @@ class _HomeState extends State<Home> {
               return Center(child: CircularProgressIndicator());
             }
             if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                  return Center(
-        child: Text(
-          "No Employees found",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 18, // Adjust font size as needed
-       ),
+              return Center(
+                child: Text(
+                  "No Employees found",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
                   ),
-      );
+                ),
+              );
             }
             return ListView.builder(
               itemCount: snapshot.data!.docs.length,
@@ -94,7 +92,7 @@ class _HomeState extends State<Home> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text("Age: ${ds["Age"]}"),
-                        Text("location: ${ds["location"]}"),
+                        Text("Location: ${ds["location"]}"),
                       ],
                     ),
                     trailing: Row(
@@ -103,14 +101,12 @@ class _HomeState extends State<Home> {
                         IconButton(
                           icon: Icon(Icons.edit),
                           onPressed: () {
-                            // Navigate to edit screen
                             navigateToEditScreen(ds);
                           },
                         ),
                         IconButton(
                           icon: Icon(Icons.delete),
                           onPressed: () {
-                            // Show confirmation dialog
                             showDeleteDialog(ds.id);
                           },
                         ),
@@ -143,10 +139,6 @@ class _HomeState extends State<Home> {
               decoration: InputDecoration(
                 labelText: "Name",
               ),
-              inputFormatters: [
-                LengthLimitingTextInputFormatter(20),
-                FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
-              ],
             ),
             TextField(
               controller: ageController,
@@ -183,10 +175,9 @@ class _HomeState extends State<Home> {
                 "location": locationController.text.trim(),
               };
               if (updateInfo["Name"].isEmpty || updateInfo["Age"] == 0) {
-                // Optionally show a snackbar or alert for invalid input
                 return;
               }
-              await DatabaseMethods().updateEmployeeDetail(id, updateInfo);
+              await FirebaseFirestore.instance.collection('employees').doc(id).update(updateInfo);
               Navigator.pop(context);
               getEmployeeDetails(); // Refresh the employee list
             },
@@ -212,7 +203,7 @@ class _HomeState extends State<Home> {
           ),
           ElevatedButton(
             onPressed: () async {
-              await DatabaseMethods().deleteEmployeeDetail(id);
+              await FirebaseFirestore.instance.collection('employees').doc(id).delete();
               Navigator.pop(context);
               getEmployeeDetails(); // Refresh the employee list
             },

@@ -1,10 +1,11 @@
-// import 'package:crud_project/Pages/MyRegister.dart';
-import 'package:crud_project/pages/home.dart';
-// import 'package:crud_project/services/LoginPage.dart';
-import 'package:flutter/material.dart';
+// import 'package:crud_project/Pages/home.dart';
 import 'package:crud_project/firebase_options.dart';
 import 'package:crud_project/services/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
+// import 'package:crud_project/services/LoginPage.dart';
+import 'package:flutter/material.dart';
+
+
 
 // Import your signup page
 
@@ -29,14 +30,18 @@ class MyApp extends StatelessWidget {
         // Define your app's theme here
       ),
       // Use a navigator observer to handle route changes if needed
-      navigatorObservers: [],
-      initialRoute: '/', // Set the initial route to splash screen
-      routes: {
-        '/': (context) => SplashScreen(), // SplashScreen as the initial screen
+      // navigatorObservers: [],
+      // initialRoute: '/', // Set the initial route to splash screen
+      // routes: {
+      //   '/': (context) => SplashScreen(), // SplashScreen as the initial screen
         // '/login': (context) => MyLogin(),
-        // '/signup': (context) => MyRegister(), // Add route for SignupPage
-        '/home': (context) => Home(),
-      },
+       //   '/signup': (context) => MyRegister(), // Add route for SignupPage
+       //   '/home': (context) => Home(),
+      // },
+  //     routes: {
+  //   '/Home': (context) => Home() 
+  // },
+      home: const SplashScreen(),
     );
   }
 }

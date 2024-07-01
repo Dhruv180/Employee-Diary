@@ -1,6 +1,7 @@
 import 'dart:async';
+import 'package:crud_project/Pages/login.dart';
 import 'package:flutter/material.dart';
-import 'package:crud_project/pages/home.dart'; // Adjust the import path based on your project structure
+ // Adjust the import path based on your project structure
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -17,7 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Timer(Duration(seconds: 4), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => Home()),
+      MaterialPageRoute(builder: (context) => LoginScreen())
       );
     });
   }
