@@ -71,7 +71,15 @@ class _HomeState extends State<Home> {
               return Center(child: CircularProgressIndicator());
             }
             if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-              return Center(child: Text("No Employees found"));
+                  return Center(
+        child: Text(
+          "No Employees found",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 18, // Adjust font size as needed
+       ),
+                  ),
+      );
             }
             return ListView.builder(
               itemCount: snapshot.data!.docs.length,
